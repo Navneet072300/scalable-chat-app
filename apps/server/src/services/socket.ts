@@ -8,6 +8,17 @@ class SocketService {
     this._io = new Server();
   }
 
+  public initListeners() {
+    const io = this.io;
+    io.on("connect", (socket) => {
+      console.log("Socket Connected", socket.id);
+
+      socket.on("event:message", async ({ message }: { message: string }) => {
+        console.log("Message Received", message);
+      });
+    });
+  }
+
   get io() {
     return this._io;
   }

@@ -13,7 +13,7 @@ const SocketContext = React.createContext<ISocketContext | null>(null);
 
 export const useSocket = () => {
   const state = useContext(SocketContext);
-  if (!state) throw new Error("useSocket must be used within a SocketProvider");
+  if (!state) throw new Error("State is undefined");
   return state;
 };
 
@@ -31,6 +31,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <SocketContext.Provider value={null}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={{ sendMessage }}>
+      {children}
+    </SocketContext.Provider>
   );
 };

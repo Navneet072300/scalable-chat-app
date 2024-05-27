@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
 interface SocketProviderProps {
@@ -10,6 +10,12 @@ interface ISocketContext {
 }
 
 const SocketContext = React.createContext<ISocketContext | null>(null);
+
+export const useSocket = () => {
+  const state = useContext(SocketContext);
+  if (!state) throw new Error("useSocket must be used within a SocketProvider");
+  return state;
+};
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const sendMessage: ISocketContext["sendMessage"] = useCallback((msg) => {
